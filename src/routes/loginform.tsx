@@ -6,7 +6,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 const schema = z.object({
-  username: z.string().min(5, "username is required"),
+  
+  email: z.string().email("Invalid email format").min(1, "Email is required"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 import { loginUser } from "@/features/authentication/loginapi";
@@ -23,7 +24,7 @@ function Login() {
   const [error, setError] = useState<string | null>(null);
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const result = await loginUser(data.username, data.password);
+      const result = await loginUser(data.email, data.password);
 
       if (result.token) {
         login(result.token);
@@ -55,12 +56,12 @@ function Login() {
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" gap="3">
             <Input
-              {...register("username")}
+              {...register("email")}
               color={"white"}
-              placeholder="Username"
+              placeholder="Email"
             />
-            {errors.username && (
-              <p style={{ color: "white" }}>{errors.username.message}</p>
+            {errors.email && (
+              <p style={{ color: "white" }}>{errors.email.message}</p>
             )}
             <Input
               {...register("password")}

@@ -5,12 +5,12 @@ interface LoginResponse {
   message?: string;
 }
 
-export const loginUser = async (username: string, password: string): Promise<LoginResponse> => {
+export const loginUser = async (email: string, password: string): Promise<LoginResponse> => {
   try {
     const response = await axios.post(
       apiURL+'auth/login',
       {
-        username,
+        email,
         password,
       },
       {
