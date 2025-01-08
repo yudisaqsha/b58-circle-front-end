@@ -29,7 +29,10 @@ import {
 
 import useAuthStore from "../../hooks/newAuthStore";
 import data_img from "@/assets/images.jpeg";
-
+import { AxiosError } from 'axios';
+interface ErrorResponse {
+  message: string;
+}
 function EditProfile() {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [coverPicPreview, setCoverPicPreview] = useState<string | null>(null);
@@ -42,6 +45,9 @@ function EditProfile() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const { user, setUser, token ,setLoggedin} = useAuthStore();
+  const isAxiosError = (error: unknown): error is AxiosError<ErrorResponse> => {
+    return (error as AxiosError).isAxiosError !== undefined;
+  };
   useEffect(() => {
     const getCurrentUser = async () => {
       if (token) {
@@ -123,8 +129,27 @@ function EditProfile() {
       console.log("User updated successfully:", response);
       alert("Data Updated!");
     } catch (error) {
-      console.error("Error updating user:", error);
-      setErrorMessage("Error updating user, please try again later.");
+      console.error(error)
+      if (isAxiosError(error)) {
+
+        const errorMessage = error.response?.data?.message;
+  
+        if (errorMessage) {
+          if (errorMessage === 'Username is already taken') {
+            setErrorMessage("This username is already taken, please choose another one.");
+          } else if (errorMessage === 'User not found or deleted') {
+            setErrorMessage("The user was not found or has been deleted.");
+          } else {
+            setErrorMessage("An unexpected error occurred. Please try again later.");
+          }
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again later.");
+        }
+      } else {
+        
+        setErrorMessage("An unexpected error occurred. Please try again later.");
+      }
+      alert(errorMessage)
     } finally {
       setLoading(false);
     }
