@@ -33,7 +33,7 @@ import {
       } finally {
         setLoading(false);
         console.log(successMessage)
-        alert("Thread Deleted")
+        alert("Reply Deleted")
         const thread = await fetchComment(token, String(threadId));
         setComments(thread)
         
