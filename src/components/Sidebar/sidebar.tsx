@@ -15,7 +15,7 @@ import useAuthStore from "@/hooks/newAuthStore";
 import { FaImage } from "react-icons/fa";
 
 import { currentUser } from "@/features/users/currentUser";
-import { User } from "@/types/user";
+
 import { createThread } from "@/features/thread/createthread";
 
 import {
@@ -32,8 +32,8 @@ import {
 import data_img from "@/assets/images.jpeg";
 import { fetchThreads } from "@/features/thread/fetchallthread";
 function Sidebar() {
-  const { token, setAllThread, logout } = useAuthStore();
-  const [loggedin, setLoggedIn] = useState<User>();
+  const { token, setAllThread, logout, loggedIn,setLoggedin } = useAuthStore();
+
   const [preview, setPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState<string>("");
@@ -85,7 +85,7 @@ function Sidebar() {
       if (token) {
         try {
           const userData = await currentUser(token);
-          setLoggedIn(userData);
+          setLoggedin(userData);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -95,7 +95,7 @@ function Sidebar() {
     };
 
     getCurrentUser();
-  }, [token, setLoggedIn]);
+  }, [token, setLoggedin]);
 
   const isPostDisabled = !(content || image);
 
@@ -200,7 +200,7 @@ function Sidebar() {
             </Link>
 
             <Link
-              to={`/profile/${loggedin?.username}`}
+              to={`/profile/${loggedIn?.username}`}
               style={{ textDecoration: "none" }}
             >
               <Flex gap={3} mt={4}>
@@ -282,7 +282,7 @@ function Sidebar() {
                         <Flex gap={5}>
                           {" "}
                           <img
-                            src={loggedin?.avatar ? loggedin.avatar : data_img}
+                            src={loggedIn?.avatar ? loggedIn.avatar : data_img}
                             style={{
                               borderRadius: "100%",
                               width: "40px",

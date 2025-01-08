@@ -41,7 +41,7 @@ function EditProfile() {
   const [initialValues, setInitialValues] = useState<any | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { user, setUser, token } = useAuthStore();
+  const { user, setUser, token ,setLoggedin} = useAuthStore();
   useEffect(() => {
     const getCurrentUser = async () => {
       if (token) {
@@ -119,6 +119,7 @@ function EditProfile() {
       await updateUser(token, formData);
       const response = await currentUser(token);
       setUser(response);
+      setLoggedin(response)
       console.log("User updated successfully:", response);
       alert("Data Updated!");
     } catch (error) {
