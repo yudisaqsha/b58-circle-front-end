@@ -356,20 +356,39 @@ function ImageDetail() {
                           style={{ marginBottom: "20px" }}
                         />
                       )}
-                      {data.author.id === user?.id && (
-                        <>
-                          <Flex>
-                            <EditReply
-                              threadId={Number(id)}
-                              commentId={Number(data.id)}
-                            />
-                            <DeleteReply
-                              threadId={Number(id)}
-                              commentId={data.id}
-                            />
-                          </Flex>
-                        </>
-                      )}
+                      {thread?.author.id === user?.id &&
+                    data.author.id !== user?.id ? (
+                      <Flex>
+                        <DeleteReply
+                          threadId={Number(id)}
+                          commentId={data.id}
+                        />
+                      </Flex>
+                    ) : data.author.id === user?.id &&
+                      thread?.author.id === user?.id ? (
+                      <Flex>
+                        <EditReply
+                          threadId={Number(id)}
+                          commentId={Number(data.id)}
+                        />
+                        <DeleteReply
+                          threadId={Number(id)}
+                          commentId={data.id}
+                        />
+                      </Flex>
+                    ) : data.author.id === user?.id &&
+                      thread?.author.id !== user?.id ? (
+                      <Flex>
+                        <EditReply
+                          threadId={Number(id)}
+                          commentId={Number(data.id)}
+                        />
+                        <DeleteReply
+                          threadId={Number(id)}
+                          commentId={data.id}
+                        />
+                      </Flex>
+                    ) : null}
                     </Flex>
                   </Flex>
                 </Container>
