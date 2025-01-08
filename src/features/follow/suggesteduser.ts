@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User } from '../users/currentUser';
+import { User } from '@/types/user';
 import { apiURL } from '@/utils/baseurl';
 
 export const getSuggested = async (token:string): Promise<User[]> => {

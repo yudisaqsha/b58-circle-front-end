@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User } from "./currentUser";
+import { User } from "@/types/user";
 import { apiURL } from "@/utils/baseurl";
 export const searchBar = async (token: string, username:string) :Promise<User[]>=> {
     try {
