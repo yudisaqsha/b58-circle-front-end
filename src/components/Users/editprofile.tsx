@@ -1,15 +1,12 @@
 import {
   Input,
- 
   Text,
   Flex,
   Stack,
   Box,
-  
   Image,
   Textarea,
   Spinner,
-  
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { currentUser } from "@/features/users/currentUser";
@@ -29,7 +26,7 @@ import {
 
 import useAuthStore from "../../hooks/newAuthStore";
 import data_img from "@/assets/images.jpeg";
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 interface ErrorResponse {
   message: string;
 }
@@ -44,7 +41,7 @@ function EditProfile() {
   const [initialValues, setInitialValues] = useState<any | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { user, setUser, token ,setLoggedin} = useAuthStore();
+  const { user, setUser, token, setLoggedin } = useAuthStore();
   const isAxiosError = (error: unknown): error is AxiosError<ErrorResponse> => {
     return (error as AxiosError).isAxiosError !== undefined;
   };
@@ -66,12 +63,10 @@ function EditProfile() {
           setCoverPicPreview(userData.coverPic);
         } catch (err) {
           console.error("Error fetching user data:", err);
-          console.log(errorMessage)
-          
+          console.log(errorMessage);
         }
       } else {
         console.log("No token found");
-        
       }
     };
 
@@ -125,31 +120,37 @@ function EditProfile() {
       await updateUser(token, formData);
       const response = await currentUser(token);
       setUser(response);
-      setLoggedin(response)
+      setLoggedin(response);
       console.log("User updated successfully:", response);
       alert("Data Updated!");
     } catch (error) {
-      console.error(error)
+      console.error(error);
       if (isAxiosError(error)) {
-
         const errorMessage = error.response?.data?.message;
-  
+
         if (errorMessage) {
-          if (errorMessage === 'Username is already taken') {
-            setErrorMessage("This username is already taken, please choose another one.");
-          } else if (errorMessage === 'User not found or deleted') {
+          if (errorMessage === "Username is already taken") {
+            setErrorMessage(
+              "This username is already taken, please choose another one.",
+            );
+          } else if (errorMessage === "User not found or deleted") {
             setErrorMessage("The user was not found or has been deleted.");
           } else {
-            setErrorMessage("An unexpected error occurred. Please try again later.");
+            setErrorMessage(
+              "An unexpected error occurred. Please try again later.",
+            );
           }
         } else {
-          setErrorMessage("An unexpected error occurred. Please try again later.");
+          setErrorMessage(
+            "An unexpected error occurred. Please try again later.",
+          );
         }
       } else {
-        
-        setErrorMessage("An unexpected error occurred. Please try again later.");
+        setErrorMessage(
+          "An unexpected error occurred. Please try again later.",
+        );
       }
-      alert(errorMessage)
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
