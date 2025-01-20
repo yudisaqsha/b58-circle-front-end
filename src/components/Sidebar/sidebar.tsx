@@ -97,7 +97,7 @@ function Sidebar() {
     getCurrentUser();
   }, [token, setLoggedin]);
 
-  const isPostDisabled = !(content || image);
+  const isPostDisabled = !(content || (image && content !== ""));
 
   return (
     <>

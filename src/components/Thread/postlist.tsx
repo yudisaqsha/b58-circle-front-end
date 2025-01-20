@@ -78,16 +78,7 @@ function PostList() {
                       {data.author.fullName}
                     </Text>
                     <Text color={"#3F3F3F"}>@{data.author.username}</Text>
-                    {loggedIn && data.author.id !== loggedIn.id && (
-                      <>
-                        <Box ml={4}>
-                          <FollowButton
-                            userId={data.author.id}
-                            currentUserId={loggedIn.id}
-                          />
-                        </Box>
-                      </>
-                    )}
+                    
                   </Flex>
                 </Link>
                 <Link
@@ -141,6 +132,16 @@ function PostList() {
                   </Flex>
                 </Flex>
               </Flex>
+              {loggedIn && data.author.id !== loggedIn.id && (
+                      <>
+                        <Box ml={4}>
+                          <FollowButton
+                            userId={data.author.id}
+                            currentUserId={loggedIn.id}
+                          />
+                        </Box>
+                      </>
+                    )}
             </Flex>
           </Container>
         );

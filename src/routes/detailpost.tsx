@@ -19,7 +19,6 @@ import useAuthStore from "@/hooks/newAuthStore";
 import { useState, useEffect } from "react";
 import { fetchThreadsbyId } from "@/features/thread/threadbyid";
 
-import { Thread } from "@/types/threads";
 import { fetchComment } from "@/features/thread/getcomment";
 import FollowButton from "@/components/Follow/followbutton";
 import { addReply } from "@/features/thread/addreply";
@@ -35,11 +34,12 @@ import DeleteReply from "@/components/Thread/deletereply";
 
 function DetailPost() {
   const { id } = useParams();
-  const { token, comments, setComments } = useAuthStore((state) => state);
+  const { token, comments, setComments, thread, setThread } = useAuthStore(
+    (state) => state,
+  );
   const [error, setError] = useState("");
   // const [commentText, setCommentText] = useState('');
   const [content, setContent] = useState("");
-  const [thread, setThread] = useState<Thread>();
 
   const [user, setUser] = useState<User>();
   const [image, setImage] = useState<File | null>(null);
@@ -148,7 +148,7 @@ function DetailPost() {
 
           <Container borderBottomWidth={2} borderColor="#3F3F3F" mt={3}>
             {thread && (
-              <Flex gap={3}>
+              <Flex gap={3} >
                 {" "}
                 <Link
                   to={`/profile/${thread.author.username}`}

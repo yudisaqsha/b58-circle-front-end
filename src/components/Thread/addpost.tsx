@@ -96,7 +96,7 @@ function AddPost() {
     getCurrentUser();
   }, [token, setUser]);
 
-  const isPostDisabled = !(content || image);
+  const isPostDisabled = !(content || (image && content !== ""));
   return (
     <Stack
       ml={"20%"}
